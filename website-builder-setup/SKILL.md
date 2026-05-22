@@ -1,39 +1,39 @@
 ---
 name: website-builder-setup
 description: "Install the full AI website builder stack — UI/UX Pro Max, Framer Motion animations, and 21st.dev components. One skill, three tools, zero coding experience needed."
+compatibility: opencode
+license: MIT
+metadata:
+  audience: web-developers
+  category: web-design
 ---
 
 # Website Builder Setup
 
-This skill walks you through installing everything you need to build professional, animated websites with Claude Code. No coding experience required.
+This skill walks you through installing everything you need to build professional, animated websites with OpenCode. No coding experience required.
 
 ## What Gets Installed
 
 | Tool | What it does |
 |------|-------------|
-| **UI/UX Pro Max** | Gives Claude access to 50+ design styles, 161 color palettes, 57 font pairings. Your sites look designed, not generated. |
+| **UI/UX Pro Max** | Gives OpenCode access to 50+ design styles, 161 color palettes, 57 font pairings. Your sites look designed, not generated. |
 | **Framer Motion** | Adds smooth animations — page transitions, hover effects, scroll reveals. Makes sites feel alive. |
-| **21st.dev Magic** | A library of 100+ polished React components Claude can pull from. Production-quality building blocks. |
+| **21st.dev Magic** | A library of 100+ polished React components OpenCode can pull from. Production-quality building blocks. |
 
 ## Workflow
 
-When this skill is triggered, walk the user through each step one at a time. Be encouraging and clear — assume they have zero coding experience. If any step fails, don't stop. Acknowledge it, give them the manual command, and keep moving.
+When this skill is triggered, call the `website_builder_setup` tool step by step. Start with `step: 'check'`, then proceed through each step in order. Be encouraging and clear — assume the user has zero coding experience. If any step fails, acknowledge it, give the manual command, and keep moving.
 
 ---
 
 ### Step 1: Check Prerequisites
 
-> Before we start, let me make sure you have what we need.
+Call `website_builder_setup` with `step: "check"`. Review the results:
 
-Run this silently:
-```bash
-node --version 2>&1 && npm --version 2>&1
-```
+- If `node.installed` is true → "You're good — Node.js is installed. Let's go."
+- If `node.installed` is false → tell the user:
 
-- If Node.js is installed → say "You're good — Node.js is installed. Let's go."
-- If NOT installed → say:
-
-> You need Node.js first. Go to https://nodejs.org and download the LTS version. Install it, restart your terminal, then come back and run `/website-builder-setup` again. Takes 2 minutes.
+> You need Node.js first. Go to https://nodejs.org and download the LTS version. Install it, restart your terminal, then come back. Takes 2 minutes.
 
 Stop here if Node is missing.
 
@@ -44,21 +44,11 @@ Stop here if Node is missing.
 > **Step 1 of 3: UI/UX Pro Max**
 >
 > This gives me a massive design library — 50+ styles, 161 color palettes, 57 font pairings. When you ask me to build a website, I'm pulling from a real design system instead of guessing. This is why the output won't look like generic AI slop.
->
-> Installing now...
 
-Run:
-```bash
-npm install -g uipro-cli 2>&1
-```
-
-Then:
-```bash
-uipro init --ai claude 2>&1
-```
+Call `website_builder_setup` with `step: "install-uiux"`.
 
 - On success → "UI/UX Pro Max is installed. Your design stack is ready."
-- On failure → "Hit a snag. You can try manually later: `npm install -g uipro-cli && uipro init --ai claude`. Let's keep going."
+- On failure → "Hit a snag. You can try manually later: `npm install -g uipro-cli && uipro init --ai opencode`. Let's keep going."
 
 ---
 
@@ -67,15 +57,10 @@ uipro init --ai claude 2>&1
 > **Step 2 of 3: Framer Motion**
 >
 > This teaches me how to add real animations to your websites — smooth page transitions, hover effects, scroll-triggered reveals. The stuff that makes a $500 site look like a $10,000 site.
->
-> Installing now...
 
-Run:
-```bash
-npm install framer-motion 2>&1
-```
+Call `website_builder_setup` with `step: "install-framer"`.
 
-- On success → "Framer Motion is installed. Your sites will have real animations now."
+- On success → "Framer Motion is installed in your project. Your sites will have real animations now."
 - On failure → "Hit a snag. You can try manually later: `npm install framer-motion`. Moving on."
 
 ---
@@ -91,13 +76,11 @@ npm install framer-motion 2>&1
 > 1. Go to **https://21st.dev/magic/console**
 > 2. Sign up or log in (it's free)
 > 3. Copy your API key
-> 4. Paste it here when I ask for it
+> 4. Share it with me
 
-Wait for the user to provide their API key.
+Wait for the user to provide their API key, then call `website_builder_setup` with `step: "setup-21st"` and `apiKey: "THEIR_KEY"`.
 
-Once they provide it, add the MCP server to their Claude Code config:
-
-Read `~/.claude.json`, find the `mcpServers` object, and add:
+The tool will return the MCP server config. Add it to the user's opencode.json under `mcpServers`:
 
 ```json
 "21st-dev-magic": {
@@ -111,11 +94,13 @@ Read `~/.claude.json`, find the `mcpServers` object, and add:
 
 After writing the config:
 
-> 21st.dev Magic is connected. You'll need to restart Claude Code for this one to kick in — just close and reopen your terminal after we're done.
+> 21st.dev Magic is connected. You'll need to restart OpenCode for this one to kick in.
 
 ---
 
 ### Step 5: Done
+
+Call `website_builder_setup` with `step: "done"` to get the summary. Then tell the user:
 
 > **You're all set.** Here's what you just installed:
 >
@@ -130,11 +115,12 @@ After writing the config:
 >
 > I'll handle the rest. Try something like:
 >
-> *"Build me a landing page for my consulting business targeting small business owners. Dark theme, modern, with animations."*
+> "Build me a landing page for my consulting business targeting small business owners. Dark theme, modern, with animations."
 >
-> **Important:** Restart Claude Code first so 21st.dev loads in. Then let's build something.
+> **Important:** Restart OpenCode first so 21st.dev loads in. Then let's build something.
 
 ## Rules
+- Call the `website_builder_setup` tool for each step
 - Walk through each step ONE AT A TIME
 - Never dump all instructions at once
 - If any install fails, don't stop — acknowledge, give manual command, keep moving
